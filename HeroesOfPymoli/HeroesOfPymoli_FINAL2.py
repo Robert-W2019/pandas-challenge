@@ -4,7 +4,7 @@
 # ### Note
 # * Instructions have been included for each segment. You do not have to follow them exactly, but they are included to help you think through the steps.
 
-# In[17]:
+# In[8]:
 
 
 # Dependencies and Setup
@@ -22,21 +22,21 @@ purchase_data_df = pd.read_csv(file_to_load)
 # * Display the total number of players
 # 
 
-# In[18]:
+# In[9]:
 
 
 #list of all columns within the DataFrame
 purchase_data_df.columns
 
 
-# In[22]:
+# In[10]:
 
 
 #display first 5 rows of data for reference
 purchase_data_df.head()
 
 
-# In[28]:
+# In[11]:
 
 
 #total number of players
@@ -59,7 +59,7 @@ pd.DataFrame({"Total Players": [total_players]})
 # * Display the summary data frame
 # 
 
-# In[31]:
+# In[12]:
 
 
 #Total Number of Unique Items
@@ -68,7 +68,7 @@ total_unqiue_items = unique_items.count()
 total_unqiue_items
 
 
-# In[35]:
+# In[13]:
 
 
 #Average Price of All Items
@@ -76,7 +76,7 @@ average_item_price = round((purchase_data_df["Price"].mean()),2)
 average_item_price
 
 
-# In[37]:
+# In[14]:
 
 
 #Number of Purchases
@@ -84,7 +84,7 @@ total_purchases = purchase_data_df["Purchase ID"].count()
 total_purchases
 
 
-# In[38]:
+# In[15]:
 
 
 #Total Revenue 
@@ -92,7 +92,7 @@ total_revenue = purchase_data_df["Price"].sum()
 total_revenue
 
 
-# In[61]:
+# In[16]:
 
 
 #Data Frame display of Number of Unique Items, Average Price,Number of Purchases, and Total Revenue
@@ -123,7 +123,7 @@ summary_table
 # 
 # 
 
-# In[80]:
+# In[17]:
 
 
 #Player demographics with duplicate purchases dropped
@@ -132,7 +132,7 @@ player_demographics = player_demographics.drop_duplicates()
 player_demographics
 
 
-# In[81]:
+# In[18]:
 
 
 #Gender count and % of the players
@@ -170,13 +170,13 @@ gender_demographics
 # 
 # * Display the summary data frame
 
-# In[92]:
+# In[19]:
 
 
 #Calculations for each gender
-gender_purchase_total = purchase_data.groupby(["Gender"]).sum() ["Price"].rename("Total Purchase Value")
-gender_average = purchase_data.groupby(["Gender"]).mean() ["Price"].rename("Average Purchase Price")
-gender_counts = purchase_data.groupby(["Gender"]).count() ["Price"].rename("Purchase Count")
+gender_purchase_total = purchase_data_df.groupby(["Gender"]).sum() ["Price"].rename("Total Purchase Value")
+gender_average = purchase_data_df.groupby(["Gender"]).mean() ["Price"].rename("Average Purchase Price")
+gender_counts = purchase_data_df.groupby(["Gender"]).count() ["Price"].rename("Purchase Count")
 
 #Calc Normalized Purchasing Total
 normalized_total = gender_purchase_total / gender_demographics ["Total Count"]
@@ -216,13 +216,13 @@ gender_data[["Purchase Count", "Average Purchase Price", "Total Purchase Value",
 # * Display Age Demographics Table
 # 
 
-# In[6]:
+# In[ ]:
 
 
 
 
 
-# In[99]:
+# In[20]:
 
 
 #Establish bins for ages
@@ -247,7 +247,7 @@ age_demographics = age_demographics.sort_index()
 age_demographics
 
 
-# ## Purchasing Analysis (Age)
+# #Purchasing Analysis (Age)
 
 # * Bin the purchase_data data frame by age
 # 
@@ -263,16 +263,16 @@ age_demographics
 # 
 # * Display the summary data frame
 
-# In[108]:
+# In[21]:
 
 
 #bins for purchase data
-purchase_data["Age Ranges"] = pd.cut(purchase_data["Age"], age_bins, labels=group_names)
+purchase_data_df["Age Ranges"] = pd.cut(purchase_data_df["Age"], age_bins, labels=group_names)
 
 #calculations for Purchase Count, Average Purchase Price, Total Purchase Value, and Avg Total Purchase per Person
-age_purchase_total = purchase_data.groupby(["Age Ranges"]).sum()["Price"].rename("Total Purchase Value")
-age_average = purchase_data.groupby(["Age Ranges"]).mean()["Price"].rename("Average Purchase Price")
-age_count = purchase_data.groupby(["Age Ranges"]).count()["Price"].rename("Purchase Count")
+age_purchase_total = purchase_data_df.groupby(["Age Ranges"]).sum()["Price"].rename("Total Purchase Value")
+age_average = purchase_data_df.groupby(["Age Ranges"]).mean()["Price"].rename("Average Purchase Price")
+age_count = purchase_data_df.groupby(["Age Ranges"]).count()["Price"].rename("Purchase Count")
 
 #Calc Normalized Total
 normalized_age_purchase_total = age_purchase_total / age_demographics ["Total Count"]
@@ -312,14 +312,14 @@ age_data[["Purchase Count", "Average Purchase Price", "Total Purchase Value", "A
 # 
 # 
 
-# In[113]:
+# In[22]:
 
 
 #calculations Purchase Count, Average Purchase Price, and Total Purchase Value
 
-user_total = purchase_data.groupby(["SN"]).sum()["Price"].rename("Total Purchase Value")
-user_average = purchase_data.groupby(["SN"]).mean()["Price"].rename("Average Purchase Price")
-user_count = purchase_data.groupby(["SN"]).count()["Price"].rename("Purchase Count")
+user_total = purchase_data_df.groupby(["SN"]).sum()["Price"].rename("Total Purchase Value")
+user_average = purchase_data_df.groupby(["SN"]).mean()["Price"].rename("Average Purchase Price")
+user_count = purchase_data_df.groupby(["SN"]).count()["Price"].rename("Purchase Count")
 
 #Convert to DataFrame
 user_data = pd.DataFrame({
@@ -359,11 +359,11 @@ user_sorted[["Purchase Count", "Average Purchase Price", "Total Purchase Value"]
 # 
 # 
 
-# In[117]:
+# In[23]:
 
 
 #Retrieve the Item ID, Item Name, and Item Price columns
-item_data = purchase_data[["Item ID", "Item Name", "Price"]]
+item_data = purchase_data_df[["Item ID", "Item Name", "Price"]]
 
 #Calculations purchase count, average item price, and total purchase value
 total_item_purchase = item_data.groupby(["Item ID", "Item Name"]).sum()["Price"].rename("Total Purchase Price")
@@ -400,7 +400,7 @@ item_data_count_sorted[["Purchase Count", "Item Price", "Total Purchase Value"]]
 # 
 # 
 
-# In[119]:
+# In[24]:
 
 
 #Item table
@@ -415,6 +415,30 @@ item_total_purchase["Total Purchase Value"] = item_total_purchase["Total Purchas
 
 #Display
 item_total_purchase[["Purchase Count", "Item Price", "Total Purchase Value"]].head()
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
 
 
 # In[ ]:
